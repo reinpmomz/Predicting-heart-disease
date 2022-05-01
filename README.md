@@ -6,7 +6,7 @@ One of the leading cause of death for both men and women currently is heart dise
 
 ## Data
 
-The data used is from a secondary data source. It is from a statistical website called Kaggle. The data set has 303 observations of 14 variables. The dependent variable is called “target” and describes whether someone has heart disease or not. 1=has heart disease, 0= has no heart disease. The data is not 100% exhaustive as there might exist some more related variables. The data has no observable anomalies but after exportation to R there are some observable issues that needs to be corrected. This involves the data type as R reads the data differently from its original form in excel. The data dictionary is as follows:
+The data used is from a secondary data source. It is from a statistical website called Kaggle. The data set has 303 observations of 14 variables. The dependent variable is called “output” and describes whether someone has heart disease or not. 1=has heart disease, 0= has no heart disease. The data is not 100% exhaustive as there might exist some more related variables. The data has no observable anomalies. The data dictionary is as follows:
 
 - sex;  1= male, 0= female.
 - cp = chest pain; 0=typical angina, 1=atypical angina, 2=non-anginal and 3=symptomatic
