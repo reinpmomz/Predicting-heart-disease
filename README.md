@@ -31,7 +31,7 @@ Every dataset used can be found under the Index of heart disease datasets from U
 - fbs: fasting blood sugar (>120mg/dl=1, <= 120mg/dl=0).
 - restecg: resting electrocardiographic results( 0=normal, 1=having ST-T wave abnormality,
 2=showing probable or definate left ventricular hypertrophy by Este’s criteria.) 
-- thalach = Maximum heart rate achieved.
-- exng = exercise induced angina; 1=yes, 0=no. 
-- oldpeak = ST depression. 
+- thalach: Maximum heart rate achieved.
+- exng: exercise induced angina; 1=yes, 0=no. 
+- oldpeak: ST depression. 
 - slp = slope of peak exercise; 0=upsloping, 1=flat, 2=downsloping.
