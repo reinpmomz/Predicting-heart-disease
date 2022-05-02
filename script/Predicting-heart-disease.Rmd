@@ -7,6 +7,8 @@ output:
     keep_md: yes
     fig_width: 14
     fig_height: 10
+    toc: true
+    number_sections: true
   pdf_document: default
   word_document: 
     fig_width: 14
@@ -15,6 +17,32 @@ output:
 
 # Introduction
 
+## Overview
+
+Cardiovascular diseases (CVDs) are the number 1 cause of death globally, taking an estimated 17.9 million lives each year, which accounts for 31% of all deaths worldwide. Four out of 5CVD deaths are due to heart attacks and strokes, and one-third of these deaths occur prematurely in people under 70 years of age. This makes it important for health facilities to be able to predict occurrences of heart diseases in order to make plans for early treatment (Assmann et al. 2005). Heart failure is a common event caused by CVDs and this dataset contains 11 features that can be used to predict a possible heart disease.
+
+People with cardiovascular disease or who are at high cardiovascular risk (due to the presence of one or more risk factors such as hypertension, diabetes, hyperlipidaemia or already established disease) need early detection and management wherein a machine learning model can be of great help.
+
+
+## About the Data
+
+This dataset contains 918 observations with 12 features. The data dictionary is as follows:
+
+- output: target variable (1=has heart attack, 0= has no heart attack)
+- age: Age of the patient
+- sex: Sex of the patient  (1= male, 0= female).
+- cp: chest pain type (0=typical angina, 1=atypical angina, 2=non-anginal and 3=asymptomatic)
+- trtbps: resting blood pressure (in mm Hg) 
+- chol: cholestoral in mg/dl fetched via BMI sensor 
+- fbs: fasting blood sugar (>120mg/dl=1, <= 120mg/dl=0).
+- restecg: resting electrocardiographic results( 0=normal, 1=having ST-T wave abnormality,
+2=showing probable or definate left ventricular hypertrophy by Este’s criteria.) 
+- thalach: Maximum heart rate achieved.
+- exng: exercise induced angina; 1=yes, 0=no. 
+- oldpeak: ST depression. 
+- slp = slope of peak exercise; 0=upsloping, 1=flat, 2=downsloping.
+
+# Data Exploration
 
 ```{r setup, include=FALSE}
 ## Set Chunk requirements
@@ -64,7 +92,7 @@ str(heart_disease)
 
 From the output on the data structure, all of the data has been read as numeric values('double' value or a decimal type with at least two decimal places) but some should be converted to factors since they are categorical.
 
-### Converting into factors
+## Converting into factors
 
 ```{r converting categorical to factors}
 
@@ -119,7 +147,7 @@ target_col = c("output")
 
 The categorial columns are `r cat_cols` while continuous columns are `r con_cols` and target variable is `r target_col`
 
-### checking missing values
+## checking missing values
 
 ```{r missing values}
 
@@ -129,15 +157,17 @@ mean(is.na(heart_disease_final))
 #which(!complete.cases(heart_disease_final))
 
 ```
-## Exploratory data analysis
+There were no missing values in our data set.
+
+# Exploratory data analysis
 
 Exploring data is vital in giving a clue of the expected relationship between the dependent variable and the exploratory variables (Zuur et al. 2010).
 
-### Univariate analysis
+## Univariate analysis
 
 This is analysis of one variable to enable us understand the distribution of values for a single variable.
 
-#### Descriptives Frequency table
+### Descriptives Frequency table
 
 ```{r Import relevant packages2}
 library(gtsummary)
@@ -177,7 +207,7 @@ tbl_summary(heart_disease_final,
 
 ```
 
-#### Visualization
+### Visualization
 
 ```{r bar graphs}
 library(ggpubr)
@@ -353,10 +383,10 @@ annotate_figure(figure2,
 
 ```
 
-### Bivariate analysis
+## Bivariate analysis
 
 
-#### Difference Frequency table
+### Difference Frequency table
 
 
 ```{r group differences}
@@ -394,7 +424,7 @@ tbl_summary(heart_disease_final,
 
 ```
 
-#### Visualization
+### Visualization
 
 ```{r grouped bar graph}
 
@@ -620,7 +650,7 @@ annotate_figure(figure4,
 ```
 
 
-#### Correlation
+### Correlation
 
 A negative correlation implies that the two variables under consideration vary in opposite directions, that is, if a variable increases the other decreases and vice versa. On the other hand, a positive correlation implies that the two variables under consideration vary in the same direction, i.e., if a variable increases the other one increases and if one decreases the other one decreases as well
 
@@ -637,9 +667,12 @@ round(cor(heart_disease_final%>%mutate(across(c(2,3,6, 7, 9, 11, 12), as.numeric
 # improved correlation matrix
 library(corrplot)
 
-corrplot(cor(heart_disease_final%>%mutate(across(c(2,3,6, 7, 9, 11, 12), as.numeric))),
-  method = "number",
-  type = "upper" # show only upper side
+corrplot(cor(heart_disease_final%>%mutate(across(c(2,3,6, 7, 9, 11, 12), as.numeric)),
+             method='spearman'),
+  method = "color", #number
+  addCoef.col = "black",
+  number.cex = 0.95,
+  type = "upper" # show only upper side #full
 )
 
 ```
@@ -662,9 +695,9 @@ kable(
 
 After exploring the data, a statistical model will be used to give the final conclusion of the relationship. The dependent variable, “output” is categorical with two variables while the independent variables are more than one and are a mixture of categorical and continuous data and hence a binary logistic model will be applied. This model will be trained and tested and used to make some predictions.
 
-## Linear Regression
+# Linear Regression
 
-### Splitting the data for training and testing
+## Splitting the data for training and testing
 
 spliting the data in a 80:20 ratio (training:testing). We use set.seed() to make sure that the results are repeatable. We also use the outcome variable, output to stratify. This is to ensure that the 
 distribution of the outcome is comparable in both data sets.
@@ -689,7 +722,7 @@ test <- testing(split)
 ```
 
 
-### model
+## model
 
 ```{r logistic regression model}
 glm_logistic_reg <-glm(formula=output~.,data=train, family="binomial")
@@ -700,7 +733,7 @@ glm_logistic_reg <-glm(formula=output~.,data=train, family="binomial")
 
 ```
 
-### model statistics
+## model statistics
 
 ```{r model statistics}
 
@@ -714,7 +747,7 @@ performance::check_model(glm_logistic_reg)
 
 ```
 
-### model results
+## model results
 
 ```{r model results}
 tbl_regression(glm_logistic_reg, exponentiate = TRUE, 
@@ -740,7 +773,9 @@ Males are 5.08 times more likely to get heart attack than females.
 
 atypical angina chest pain type, non-anginal chest pain type, having ST_T abnormality sesting electrocardiographic results are associated with lower odds of heart attack. However they do not have a significant effect on heart attack. 
 
-### Evaluating with testing data
+# Evaluating our Model
+
+## Fitting with testing data
 
 ```{r evaluating test data}
 test$prediction <-predict(glm_logistic_reg, test, type= "response")
@@ -770,26 +805,26 @@ with(glm_logistic_reg, pchisq(null.deviance - deviance, df.null - df.residual, l
 
 ```
 
-True positives (TP) we have 68 correctly classified instances of heart attack
+* True positives (TP) we have 68 correctly classified instances of heart attack
 
-True negatives(TN) we have 63 cases classified as not having heart attack
+* True negatives(TN) we have 63 cases classified as not having heart attack
 
-False negatives (FN) we have 3 cases our model said the patient didn’t have heart attack and they actually did
+* False negatives (FN) we have 3 cases our model said the patient didn’t have heart attack and they actually did
 
-False positives (FP) we have 14 cases our model said a patient did have heart attack, but they actually didn’t
+* False positives (FP) we have 14 cases our model said a patient did have heart attack, but they actually didn’t
 
-*Sensitivity (Recall)* The true positive rate is 0.9577 meaning from all the patients that had heart attack ; how many did we predict correctly - this equation is *Sensitivity =TP / (TP + FN)*
+* **Sensitivity (Recall)** The true positive rate is 0.9577 meaning from all the patients that had heart attack ; how many did we predict correctly - this equation is **Sensitivity =TP / (TP + FN)**
 
-*Specificity* The true negative rate is 0.8182 meaning from all the patients that didn't have heart attack - how many did we predict correctly - this equation is *Specificity =TN / (TN + FP)*
+* **Specificity** The true negative rate is 0.8182 meaning from all the patients that didn't have heart attack - how many did we predict correctly - this equation is **Specificity =TN / (TN + FP)**
 
-*Positive Predictive Value (Precision)* is 0.8293 meaning from all the classes we predicted as positive, how many were actually positive. equation is *Positive Predictive Value=TP/(TP + FP)*
+* **Positive Predictive Value (Precision)** is 0.8293 meaning from all the classes we predicted as positive, how many were actually positive. equation is **Positive Predictive Value=TP/(TP + FP)**
 
-*Negative Predictive Value (Precision)* is 0.9545 meaning from all the classes we predicted as negative, how many were actually negative. equation is *Negative Predictive Value=TN/(TN + FN)*
+* **Negative Predictive Value (Precision)** is 0.9545 meaning from all the classes we predicted as negative, how many were actually negative. equation is **Negative Predictive Value=TN/(TN + FN)**
 
 
-Accuracy of the model is 88.5% with p value of 2.407305e-82 (less than the default level of significance (0.05)).
+* Accuracy of the model is 88.5% with p value of 2.407305e-82 (less than the default level of significance (0.05)).
 
-Our model did relatively well and can be used in making predictions
+* Our model did relatively well and can be used in making predictions
 
 
 

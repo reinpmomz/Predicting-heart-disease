@@ -7,6 +7,8 @@ output:
     keep_md: yes
     fig_width: 14
     fig_height: 10
+    toc: true
+    number_sections: true
   pdf_document: default
   word_document: 
     fig_width: 14
@@ -15,6 +17,32 @@ output:
 
 # Introduction
 
+## Overview
+
+Cardiovascular diseases (CVDs) are the number 1 cause of death globally, taking an estimated 17.9 million lives each year, which accounts for 31% of all deaths worldwide. Four out of 5CVD deaths are due to heart attacks and strokes, and one-third of these deaths occur prematurely in people under 70 years of age. This makes it important for health facilities to be able to predict occurrences of heart diseases in order to make plans for early treatment (Assmann et al. 2005). Heart failure is a common event caused by CVDs and this dataset contains 11 features that can be used to predict a possible heart disease.
+
+People with cardiovascular disease or who are at high cardiovascular risk (due to the presence of one or more risk factors such as hypertension, diabetes, hyperlipidaemia or already established disease) need early detection and management wherein a machine learning model can be of great help.
+
+
+## About the Data
+
+This dataset contains 918 observations with 12 features. The data dictionary is as follows:
+
+- output: target variable (1=has heart attack, 0= has no heart attack)
+- age: Age of the patient
+- sex: Sex of the patient  (1= male, 0= female).
+- cp: chest pain type (0=typical angina, 1=atypical angina, 2=non-anginal and 3=asymptomatic)
+- trtbps: resting blood pressure (in mm Hg) 
+- chol: cholestoral in mg/dl fetched via BMI sensor 
+- fbs: fasting blood sugar (>120mg/dl=1, <= 120mg/dl=0).
+- restecg: resting electrocardiographic results( 0=normal, 1=having ST-T wave abnormality,
+2=showing probable or definate left ventricular hypertrophy by Este’s criteria.) 
+- thalach: Maximum heart rate achieved.
+- exng: exercise induced angina; 1=yes, 0=no. 
+- oldpeak: ST depression. 
+- slp = slope of peak exercise; 0=upsloping, 1=flat, 2=downsloping.
+
+# Data Exploration
 
 
 
@@ -101,7 +129,7 @@ str(heart_disease)
 
 From the output on the data structure, all of the data has been read as numeric values('double' value or a decimal type with at least two decimal places) but some should be converted to factors since they are categorical.
 
-### Converting into factors
+## Converting into factors
 
 
 ```r
@@ -178,7 +206,7 @@ str(heart_disease_final)
 
 The categorial columns are sex, cp, fbs, restecg, exng, slp while continuous columns are age, trtbps, chol, thalach, oldpeak and target variable is output
 
-### checking missing values
+## checking missing values
 
 
 ```r
@@ -194,15 +222,17 @@ mean(is.na(heart_disease_final))
 
 #which(!complete.cases(heart_disease_final))
 ```
-## Exploratory data analysis
+There were no missing values in our data set.
+
+# Exploratory data analysis
 
 Exploring data is vital in giving a clue of the expected relationship between the dependent variable and the exploratory variables (Zuur et al. 2010).
 
-### Univariate analysis
+## Univariate analysis
 
 This is analysis of one variable to enable us understand the distribution of values for a single variable.
 
-#### Descriptives Frequency table
+### Descriptives Frequency table
 
 
 ```r
@@ -242,12 +272,12 @@ tbl_summary(heart_disease_final,
 ```
 
 ```{=html}
-<div id="ssymnrbphh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="eoqbmzjjgi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ssymnrbphh .gt_table {
+#eoqbmzjjgi .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -272,7 +302,7 @@ tbl_summary(heart_disease_final,
   border-left-color: #D3D3D3;
 }
 
-#ssymnrbphh .gt_heading {
+#eoqbmzjjgi .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -284,7 +314,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#ssymnrbphh .gt_title {
+#eoqbmzjjgi .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -296,7 +326,7 @@ tbl_summary(heart_disease_final,
   border-bottom-width: 0;
 }
 
-#ssymnrbphh .gt_subtitle {
+#eoqbmzjjgi .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -308,13 +338,13 @@ tbl_summary(heart_disease_final,
   border-top-width: 0;
 }
 
-#ssymnrbphh .gt_bottom_border {
+#eoqbmzjjgi .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ssymnrbphh .gt_col_headings {
+#eoqbmzjjgi .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -329,7 +359,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#ssymnrbphh .gt_col_heading {
+#eoqbmzjjgi .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -349,7 +379,7 @@ tbl_summary(heart_disease_final,
   overflow-x: hidden;
 }
 
-#ssymnrbphh .gt_column_spanner_outer {
+#eoqbmzjjgi .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -361,15 +391,15 @@ tbl_summary(heart_disease_final,
   padding-right: 4px;
 }
 
-#ssymnrbphh .gt_column_spanner_outer:first-child {
+#eoqbmzjjgi .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ssymnrbphh .gt_column_spanner_outer:last-child {
+#eoqbmzjjgi .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ssymnrbphh .gt_column_spanner {
+#eoqbmzjjgi .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -381,7 +411,7 @@ tbl_summary(heart_disease_final,
   width: 100%;
 }
 
-#ssymnrbphh .gt_group_heading {
+#eoqbmzjjgi .gt_group_heading {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -406,7 +436,7 @@ tbl_summary(heart_disease_final,
   vertical-align: middle;
 }
 
-#ssymnrbphh .gt_empty_group_heading {
+#eoqbmzjjgi .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -421,15 +451,15 @@ tbl_summary(heart_disease_final,
   vertical-align: middle;
 }
 
-#ssymnrbphh .gt_from_md > :first-child {
+#eoqbmzjjgi .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ssymnrbphh .gt_from_md > :last-child {
+#eoqbmzjjgi .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ssymnrbphh .gt_row {
+#eoqbmzjjgi .gt_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -448,7 +478,7 @@ tbl_summary(heart_disease_final,
   overflow-x: hidden;
 }
 
-#ssymnrbphh .gt_stub {
+#eoqbmzjjgi .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -461,7 +491,7 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#ssymnrbphh .gt_stub_row_group {
+#eoqbmzjjgi .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -475,11 +505,11 @@ tbl_summary(heart_disease_final,
   vertical-align: top;
 }
 
-#ssymnrbphh .gt_row_group_first td {
+#eoqbmzjjgi .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ssymnrbphh .gt_summary_row {
+#eoqbmzjjgi .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -489,16 +519,16 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#ssymnrbphh .gt_first_summary_row {
+#eoqbmzjjgi .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ssymnrbphh .gt_first_summary_row.thick {
+#eoqbmzjjgi .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ssymnrbphh .gt_last_summary_row {
+#eoqbmzjjgi .gt_last_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -508,7 +538,7 @@ tbl_summary(heart_disease_final,
   border-bottom-color: #D3D3D3;
 }
 
-#ssymnrbphh .gt_grand_summary_row {
+#eoqbmzjjgi .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -518,7 +548,7 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#ssymnrbphh .gt_first_grand_summary_row {
+#eoqbmzjjgi .gt_first_grand_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -528,11 +558,11 @@ tbl_summary(heart_disease_final,
   border-top-color: #D3D3D3;
 }
 
-#ssymnrbphh .gt_striped {
+#eoqbmzjjgi .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ssymnrbphh .gt_table_body {
+#eoqbmzjjgi .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -541,7 +571,7 @@ tbl_summary(heart_disease_final,
   border-bottom-color: #D3D3D3;
 }
 
-#ssymnrbphh .gt_footnotes {
+#eoqbmzjjgi .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -555,7 +585,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#ssymnrbphh .gt_footnote {
+#eoqbmzjjgi .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 1px;
@@ -564,7 +594,7 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#ssymnrbphh .gt_sourcenotes {
+#eoqbmzjjgi .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -578,7 +608,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#ssymnrbphh .gt_sourcenote {
+#eoqbmzjjgi .gt_sourcenote {
   font-size: 90%;
   padding-top: 1px;
   padding-bottom: 1px;
@@ -586,60 +616,60 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#ssymnrbphh .gt_left {
+#eoqbmzjjgi .gt_left {
   text-align: left;
 }
 
-#ssymnrbphh .gt_center {
+#eoqbmzjjgi .gt_center {
   text-align: center;
 }
 
-#ssymnrbphh .gt_right {
+#eoqbmzjjgi .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ssymnrbphh .gt_font_normal {
+#eoqbmzjjgi .gt_font_normal {
   font-weight: normal;
 }
 
-#ssymnrbphh .gt_font_bold {
+#eoqbmzjjgi .gt_font_bold {
   font-weight: bold;
 }
 
-#ssymnrbphh .gt_font_italic {
+#eoqbmzjjgi .gt_font_italic {
   font-style: italic;
 }
 
-#ssymnrbphh .gt_super {
+#eoqbmzjjgi .gt_super {
   font-size: 65%;
 }
 
-#ssymnrbphh .gt_footnote_marks {
+#eoqbmzjjgi .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#ssymnrbphh .gt_asterisk {
+#eoqbmzjjgi .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ssymnrbphh .gt_slash_mark {
+#eoqbmzjjgi .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#ssymnrbphh .gt_fraction_numerator {
+#eoqbmzjjgi .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#ssymnrbphh .gt_fraction_denominator {
+#eoqbmzjjgi .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -840,7 +870,7 @@ tbl_summary(heart_disease_final,
 </div>
 ```
 
-#### Visualization
+### Visualization
 
 
 ```r
@@ -1019,10 +1049,10 @@ annotate_figure(figure2,
 
 ![](Predicting-heart-disease_files/figure-html/histograms-1.png)<!-- -->
 
-### Bivariate analysis
+## Bivariate analysis
 
 
-#### Difference Frequency table
+### Difference Frequency table
 
 
 
@@ -1061,12 +1091,12 @@ tbl_summary(heart_disease_final,
 ```
 
 ```{=html}
-<div id="teunohmjsi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="qqazdlgfnk" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#teunohmjsi .gt_table {
+#qqazdlgfnk .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1091,7 +1121,7 @@ tbl_summary(heart_disease_final,
   border-left-color: #D3D3D3;
 }
 
-#teunohmjsi .gt_heading {
+#qqazdlgfnk .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1103,7 +1133,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#teunohmjsi .gt_title {
+#qqazdlgfnk .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1115,7 +1145,7 @@ tbl_summary(heart_disease_final,
   border-bottom-width: 0;
 }
 
-#teunohmjsi .gt_subtitle {
+#qqazdlgfnk .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1127,13 +1157,13 @@ tbl_summary(heart_disease_final,
   border-top-width: 0;
 }
 
-#teunohmjsi .gt_bottom_border {
+#qqazdlgfnk .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#teunohmjsi .gt_col_headings {
+#qqazdlgfnk .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1148,7 +1178,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#teunohmjsi .gt_col_heading {
+#qqazdlgfnk .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1168,7 +1198,7 @@ tbl_summary(heart_disease_final,
   overflow-x: hidden;
 }
 
-#teunohmjsi .gt_column_spanner_outer {
+#qqazdlgfnk .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1180,15 +1210,15 @@ tbl_summary(heart_disease_final,
   padding-right: 4px;
 }
 
-#teunohmjsi .gt_column_spanner_outer:first-child {
+#qqazdlgfnk .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#teunohmjsi .gt_column_spanner_outer:last-child {
+#qqazdlgfnk .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#teunohmjsi .gt_column_spanner {
+#qqazdlgfnk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1200,7 +1230,7 @@ tbl_summary(heart_disease_final,
   width: 100%;
 }
 
-#teunohmjsi .gt_group_heading {
+#qqazdlgfnk .gt_group_heading {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -1225,7 +1255,7 @@ tbl_summary(heart_disease_final,
   vertical-align: middle;
 }
 
-#teunohmjsi .gt_empty_group_heading {
+#qqazdlgfnk .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1240,15 +1270,15 @@ tbl_summary(heart_disease_final,
   vertical-align: middle;
 }
 
-#teunohmjsi .gt_from_md > :first-child {
+#qqazdlgfnk .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#teunohmjsi .gt_from_md > :last-child {
+#qqazdlgfnk .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#teunohmjsi .gt_row {
+#qqazdlgfnk .gt_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -1267,7 +1297,7 @@ tbl_summary(heart_disease_final,
   overflow-x: hidden;
 }
 
-#teunohmjsi .gt_stub {
+#qqazdlgfnk .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1280,7 +1310,7 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#teunohmjsi .gt_stub_row_group {
+#qqazdlgfnk .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1294,11 +1324,11 @@ tbl_summary(heart_disease_final,
   vertical-align: top;
 }
 
-#teunohmjsi .gt_row_group_first td {
+#qqazdlgfnk .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#teunohmjsi .gt_summary_row {
+#qqazdlgfnk .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1308,16 +1338,16 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#teunohmjsi .gt_first_summary_row {
+#qqazdlgfnk .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#teunohmjsi .gt_first_summary_row.thick {
+#qqazdlgfnk .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#teunohmjsi .gt_last_summary_row {
+#qqazdlgfnk .gt_last_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -1327,7 +1357,7 @@ tbl_summary(heart_disease_final,
   border-bottom-color: #D3D3D3;
 }
 
-#teunohmjsi .gt_grand_summary_row {
+#qqazdlgfnk .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1337,7 +1367,7 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#teunohmjsi .gt_first_grand_summary_row {
+#qqazdlgfnk .gt_first_grand_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -1347,11 +1377,11 @@ tbl_summary(heart_disease_final,
   border-top-color: #D3D3D3;
 }
 
-#teunohmjsi .gt_striped {
+#qqazdlgfnk .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#teunohmjsi .gt_table_body {
+#qqazdlgfnk .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1360,7 +1390,7 @@ tbl_summary(heart_disease_final,
   border-bottom-color: #D3D3D3;
 }
 
-#teunohmjsi .gt_footnotes {
+#qqazdlgfnk .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1374,7 +1404,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#teunohmjsi .gt_footnote {
+#qqazdlgfnk .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 1px;
@@ -1383,7 +1413,7 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#teunohmjsi .gt_sourcenotes {
+#qqazdlgfnk .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1397,7 +1427,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#teunohmjsi .gt_sourcenote {
+#qqazdlgfnk .gt_sourcenote {
   font-size: 90%;
   padding-top: 1px;
   padding-bottom: 1px;
@@ -1405,60 +1435,60 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#teunohmjsi .gt_left {
+#qqazdlgfnk .gt_left {
   text-align: left;
 }
 
-#teunohmjsi .gt_center {
+#qqazdlgfnk .gt_center {
   text-align: center;
 }
 
-#teunohmjsi .gt_right {
+#qqazdlgfnk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#teunohmjsi .gt_font_normal {
+#qqazdlgfnk .gt_font_normal {
   font-weight: normal;
 }
 
-#teunohmjsi .gt_font_bold {
+#qqazdlgfnk .gt_font_bold {
   font-weight: bold;
 }
 
-#teunohmjsi .gt_font_italic {
+#qqazdlgfnk .gt_font_italic {
   font-style: italic;
 }
 
-#teunohmjsi .gt_super {
+#qqazdlgfnk .gt_super {
   font-size: 65%;
 }
 
-#teunohmjsi .gt_footnote_marks {
+#qqazdlgfnk .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#teunohmjsi .gt_asterisk {
+#qqazdlgfnk .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#teunohmjsi .gt_slash_mark {
+#qqazdlgfnk .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#teunohmjsi .gt_fraction_numerator {
+#qqazdlgfnk .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#teunohmjsi .gt_fraction_denominator {
+#qqazdlgfnk .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -1763,7 +1793,7 @@ tbl_summary(heart_disease_final,
 </div>
 ```
 
-#### Visualization
+### Visualization
 
 
 ```r
@@ -1991,7 +2021,7 @@ annotate_figure(figure4,
 ![](Predicting-heart-disease_files/figure-html/density and box plots-1.png)<!-- -->
 
 
-#### Correlation
+### Correlation
 
 A negative correlation implies that the two variables under consideration vary in opposite directions, that is, if a variable increases the other decreases and vice versa. On the other hand, a positive correlation implies that the two variables under consideration vary in the same direction, i.e., if a variable increases the other one increases and if one decreases the other one decreases as well
 
@@ -2026,9 +2056,12 @@ round(cor(heart_disease_final%>%mutate(across(c(2,3,6, 7, 9, 11, 12), as.numeric
 # improved correlation matrix
 library(corrplot)
 
-corrplot(cor(heart_disease_final%>%mutate(across(c(2,3,6, 7, 9, 11, 12), as.numeric))),
-  method = "number",
-  type = "upper" # show only upper side
+corrplot(cor(heart_disease_final%>%mutate(across(c(2,3,6, 7, 9, 11, 12), as.numeric)),
+             method='spearman'),
+  method = "color", #number
+  addCoef.col = "black",
+  number.cex = 0.95,
+  type = "upper" # show only upper side #full
 )
 ```
 
@@ -2068,9 +2101,9 @@ kable(
 
 After exploring the data, a statistical model will be used to give the final conclusion of the relationship. The dependent variable, “output” is categorical with two variables while the independent variables are more than one and are a mixture of categorical and continuous data and hence a binary logistic model will be applied. This model will be trained and tested and used to make some predictions.
 
-## Linear Regression
+# Linear Regression
 
-### Splitting the data for training and testing
+## Splitting the data for training and testing
 
 spliting the data in a 80:20 ratio (training:testing). We use set.seed() to make sure that the results are repeatable. We also use the outcome variable, output to stratify. This is to ensure that the 
 distribution of the outcome is comparable in both data sets.
@@ -2094,7 +2127,7 @@ test <- testing(split)
 ```
 
 
-### model
+## model
 
 
 ```r
@@ -2104,7 +2137,7 @@ glm_logistic_reg <-glm(formula=output~.,data=train, family="binomial")
 #summary(glm_logistic_reg)
 ```
 
-### model statistics
+## model statistics
 
 
 ```r
@@ -2130,7 +2163,7 @@ performance::check_model(glm_logistic_reg)
 #performance::performance_accuracy(glm_logistic_reg)
 ```
 
-### model results
+## model results
 
 
 ```r
@@ -2668,7 +2701,9 @@ Males are 5.08 times more likely to get heart attack than females.
 
 atypical angina chest pain type, non-anginal chest pain type, having ST_T abnormality sesting electrocardiographic results are associated with lower odds of heart attack. However they do not have a significant effect on heart attack. 
 
-### Evaluating with testing data
+# Evaluating our Model
+
+## Fitting with testing data
 
 
 ```r
@@ -2722,26 +2757,26 @@ with(glm_logistic_reg, pchisq(null.deviance - deviance, df.null - df.residual, l
 ## [1] 2.407305e-82
 ```
 
-True positives (TP) we have 68 correctly classified instances of heart attack
+* True positives (TP) we have 68 correctly classified instances of heart attack
 
-True negatives(TN) we have 63 cases classified as not having heart attack
+* True negatives(TN) we have 63 cases classified as not having heart attack
 
-False negatives (FN) we have 3 cases our model said the patient didn’t have heart attack and they actually did
+* False negatives (FN) we have 3 cases our model said the patient didn’t have heart attack and they actually did
 
-False positives (FP) we have 14 cases our model said a patient did have heart attack, but they actually didn’t
+* False positives (FP) we have 14 cases our model said a patient did have heart attack, but they actually didn’t
 
-*Sensitivity (Recall)* The true positive rate is 0.9577 meaning from all the patients that had heart attack ; how many did we predict correctly - this equation is *Sensitivity =TP / (TP + FN)*
+* **Sensitivity (Recall)** The true positive rate is 0.9577 meaning from all the patients that had heart attack ; how many did we predict correctly - this equation is **Sensitivity =TP / (TP + FN)**
 
-*Specificity* The true negative rate is 0.8182 meaning from all the patients that didn't have heart attack - how many did we predict correctly - this equation is *Specificity =TN / (TN + FP)*
+* **Specificity** The true negative rate is 0.8182 meaning from all the patients that didn't have heart attack - how many did we predict correctly - this equation is **Specificity =TN / (TN + FP)**
 
-*Positive Predictive Value (Precision)* is 0.8293 meaning from all the classes we predicted as positive, how many were actually positive. equation is *Positive Predictive Value=TP/(TP + FP)*
+* **Positive Predictive Value (Precision)** is 0.8293 meaning from all the classes we predicted as positive, how many were actually positive. equation is **Positive Predictive Value=TP/(TP + FP)**
 
-*Negative Predictive Value (Precision)* is 0.9545 meaning from all the classes we predicted as negative, how many were actually negative. equation is *Negative Predictive Value=TN/(TN + FN)*
+* **Negative Predictive Value (Precision)** is 0.9545 meaning from all the classes we predicted as negative, how many were actually negative. equation is **Negative Predictive Value=TN/(TN + FN)**
 
 
-Accuracy of the model is 88.5% with p value of 2.407305e-82 (less than the default level of significance (0.05)).
+* Accuracy of the model is 88.5% with p value of 2.407305e-82 (less than the default level of significance (0.05)).
 
-Our model did relatively well and can be used in making predictions
+* Our model did relatively well and can be used in making predictions
 
 
 
