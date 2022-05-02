@@ -1,0 +1,795 @@
+---
+title: "Predicting heart disease"
+author: "Reinp"
+date: "`r Sys.Date()`"
+output:
+  html_document: 
+    keep_md: yes
+    fig_width: 14
+    fig_height: 10
+  pdf_document: default
+  word_document: 
+    fig_width: 14
+    fig_height: 10
+---
+
+# Introduction
+
+
+```{r setup, include=FALSE}
+## Set Chunk requirements
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+```
+
+## loading Relevant packages
+
+```{r Import relevant packages}
+#Import relevant packages
+
+library(tidyverse)
+library(janitor)
+library(readr)
+library(plotly)
+library(knitr)
+
+
+```
+
+
+## loading Data Set
+
+```{r Set Working directory, echo=FALSE}
+setwd('F:/Documents/Reinp/GitHub Respositories/Predicting-heart-disease/script')
+
+```
+
+
+```{r importing data}
+heart_disease <- read_csv('F:/Documents/Reinp/GitHub Respositories/Predicting-heart-disease/data/heart.csv')%>%
+  clean_names()
+
+
+#View(heart_disease)
+head(heart_disease)
+
+```
+
+```{r checking the data structure}
+##checking the data structure
+
+str(heart_disease)
+
+```
+
+From the output on the data structure, all of the data has been read as numeric values('double' value or a decimal type with at least two decimal places) but some should be converted to factors since they are categorical.
+
+### Converting into factors
+
+```{r converting categorical to factors}
+
+heart_disease_final <- heart_disease%>%
+  mutate(output= factor(output, levels = c(0,1), 
+                                      labels = c("No heart attack", "Has Heart attack")))%>%
+  mutate(sex= factor(sex, levels = c(0,1), 
+                                      labels = c("Female", "Male")))%>%
+  mutate(cp= factor(cp, levels = c(0,1,2,3), 
+          labels = c("typical angina", "atypical angina", "non-anginal", "asymptomatic")))%>%
+  mutate(fbs= factor(fbs, levels = c(0,1), 
+                                      labels = c("<= 120mg/dl", ">120mg/dl")))%>%
+  mutate(restecg= factor(restecg, levels = c(0,1,2), 
+          labels = c("normal", "having ST_T \n abnormality", "showing probable or \n definate left\n ventricular hypertrophy")))%>%
+  mutate(exng= factor(exng, levels = c(0,1), 
+                                      labels = c("No", "Yes")))%>%
+  mutate(slp= factor(slp, levels = c(0,1,2), 
+          labels = c("upsloping", "flat", "downsloping")))%>%
+  filter(trtbps>0)%>%
+  filter(chol>0)
+
+```
+
+
+```{r label variable names}
+var.labels = c(
+  age = "Age of the patient",
+  sex = "Sex of the patient",
+  cp = "Chest pain type",
+  trtbps = "Resting blood pressure (in mm Hg)",
+  chol = "Cholestoral in mg/dl",
+  fbs = "Fasting blood sugar",
+  restecg = "Resting electrocardiographic results",
+  thalach = "Maximum heart rate achieved",
+  exng = "Exercise induced angina",
+  oldpeak = "ST depression",
+  slp = "Slope of peak exercise",
+  output = "Heart disease")
+
+heart_disease_final <- labelled::set_variable_labels(heart_disease_final, .labels = var.labels)
+
+str(heart_disease_final)
+```
+
+```{r categorical and continous columns, include=FALSE}
+
+cat_cols = c('sex','cp','fbs','restecg', 'exng','slp')
+con_cols = c("age","trtbps","chol","thalach","oldpeak")
+target_col = c("output")
+
+```
+
+The categorial columns are `r cat_cols` while continuous columns are `r con_cols` and target variable is `r target_col`
+
+### checking missing values
+
+```{r missing values}
+
+mean(is.na(heart_disease_final))
+#which(is.na(heart_disease_final))
+
+#which(!complete.cases(heart_disease_final))
+
+```
+## Exploratory data analysis
+
+Exploring data is vital in giving a clue of the expected relationship between the dependent variable and the exploratory variables (Zuur et al. 2010).
+
+### Univariate analysis
+
+This is analysis of one variable to enable us understand the distribution of values for a single variable.
+
+#### Descriptives Frequency table
+
+```{r Import relevant packages2}
+library(gtsummary)
+library(flextable)
+
+set_gtsummary_theme(list(
+  "tbl_summary-fn:percent_fun" = function(x) style_percent(x, digits = 1),
+  "tbl_summary-str:categorical_stat" = "{n} ({p}%)"
+))
+# Setting `Compact` theme
+theme_gtsummary_compact()
+
+```
+
+
+```{r descriptives}
+# make dataset with variables to summarize
+
+      
+tbl_summary(heart_disease_final,
+                      type = list(
+                        all_dichotomous() ~ "categorical",
+                         all_continuous() ~ "continuous2")
+                      , statistic = all_continuous() ~ c(
+                                     "{mean} ({sd})", 
+                                     "{median} ({p25}, {p75})", 
+                                     "{min}, {max}")
+                      , digits = all_continuous() ~ 2
+                      , missing = "always" # don't list missing data separately
+                      ,missing_text = "Missing"
+                      ) %>% 
+  modify_header(label = "**Descriptives**") %>% # update the column header
+  bold_labels() %>%
+  italicize_levels()%>%
+  add_n() # add column with total number of non-missing observations
+
+
+```
+
+#### Visualization
+
+```{r bar graphs}
+library(ggpubr)
+
+p1 <- ggplot(heart_disease_final, aes(x=output))+
+  geom_bar(aes(fill = output), show.legend = FALSE)+
+  labs(x="",y="", title = "Heart disease")+
+  geom_text(aes(label = ..count..), stat = "count", vjust = 1.5, colour = "black")+
+  #guides(fill = FALSE)+
+  theme_pubclean()+
+  theme(axis.title = element_text(face="bold",color="black",size=13),
+        #legend.position = "none",
+        axis.text.y = element_text(color="black",size=12),
+        axis.text.x = element_text(color="black",size=11),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank())
+
+p2 <- ggplot(heart_disease_final, aes(x=sex))+
+  geom_bar(aes(fill = sex), show.legend = FALSE)+
+  labs(x="",y="", title = "Sex of the patient")+
+  scale_y_continuous(breaks = seq(0, 600, by = 100), limits = c(0, 600))+
+  theme_pubclean()+
+  geom_text(aes(label = ..count..), stat = "count", vjust = 1.5, colour = "black")+
+  theme(axis.title = element_text(face="bold",color="black",size=13),
+        axis.text = element_text(color="black",size=12),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank())
+
+p3 <- ggplot(heart_disease_final, aes(x=cp))+
+  geom_bar(aes(fill = cp), show.legend = FALSE)+
+  labs(x="",y="", title = "Chest pain Type")+
+  scale_y_continuous(breaks = seq(0, 400, by = 50), limits = c(0, 400))+
+  theme_pubclean()+
+  geom_text(aes(label = ..count..), stat = "count", vjust = 1.5, colour = "black")+
+  theme(axis.title = element_text(face="bold",color="black",size=13),
+        axis.text.y = element_text(color="black",size=12),
+        axis.text.x = element_text(color="black",size=12, angle = 90),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank())
+
+
+p4 <- ggplot(heart_disease_final, aes(x=fbs))+
+  geom_bar(aes(fill = fbs), show.legend = FALSE)+
+  labs(x="",y="", title = "Fasting blood sugar")+
+  scale_y_continuous(breaks = seq(0, 750, by = 100), limits = c(0, 750))+
+ theme_pubclean()+
+  geom_text(aes(label = ..count..), stat = "count", vjust = 1.5, colour = "black")+
+  theme(axis.title= element_text(face="bold",color="black",size=13),
+        axis.text = element_text(color="black",size=12),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank())
+
+p5 <- ggplot(heart_disease_final, aes(x=restecg))+
+  geom_bar(aes(fill = restecg), show.legend = FALSE)+
+  labs(x="",y="", title = "Resting electrocardiographic results")+
+  scale_y_continuous(breaks = seq(0, 500, by = 100), limits = c(0, 500))+
+  theme_pubclean()+
+  geom_text(aes(label = ..count..), stat = "count", vjust = 1.5, colour = "black")+
+  theme(axis.title = element_text(face="bold",color="black",size=13),
+        axis.text.y = element_text(color="black",size=12),
+        axis.text.x = element_text(color="black",size=11, angle = 90),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank())
+
+p6 <- ggplot(heart_disease_final, aes(x=exng))+
+  geom_bar(aes(fill = exng), show.legend = FALSE)+
+  labs(x="",y="", title = "Exercise induced angina")+
+  scale_y_continuous(breaks = seq(0, 500, by = 100), limits = c(0, 500))+
+  theme_pubclean()+
+  geom_text(aes(label = ..count..), stat = "count", vjust = 1.5, colour = "black")+
+  theme(axis.title = element_text(face="bold",color="black",size=13),
+        axis.text = element_text(color="black",size=12),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank())
+
+
+p7 <- ggplot(heart_disease_final, aes(x=slp))+
+  geom_bar(aes(fill = slp), show.legend = FALSE)+
+  labs(x="",y="", title = "Slope of peak exercise")+
+  scale_y_continuous(breaks = seq(0, 400, by = 50), limits = c(0, 400))+
+  theme_pubclean()+
+  geom_text(aes(label = ..count..), stat = "count", vjust = 1.5, colour = "black")+
+  theme(axis.title = element_text(face="bold",color="black",size=13),
+        axis.text = element_text(color="black",size=12),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank())
+
+
+figure1 <- ggarrange(p1, p2, p3, p4, p5, p6, p7, 
+          #labels = c("A", "B", "C","D", "E", "F", "G"),
+          ncol = 4, nrow = 2)
+
+annotate_figure(figure1,
+                top = text_grob("Count plots for various categorical features",
+                                color = "red", face = "bold", size = 15),
+                bottom = text_grob("Data source: \n heart disease data set", color = "blue",
+                                   hjust = 1, x = 0.98, face = "italic", size = 10),
+                #left = text_grob("Figure arranged using ggpubr", color = "green", rot = 90),
+                #right = "",
+                fig.lab = "Figure 1", fig.lab.face = "bold"
+                )
+
+```
+
+
+```{r histograms}
+p8 <- ggplot(heart_disease_final, aes(x=age)) + 
+  geom_histogram(color="black", fill="white")+
+  geom_vline(aes(xintercept=mean(age)),
+            color="blue", linetype="dashed", size=1)+
+  scale_y_continuous(breaks = seq(0, 85, by = 10), limits = c(0, 80))+
+  scale_x_continuous(n.breaks = 10)+
+  labs(x="age",y="count", title = "Age of the patient")+
+  theme(axis.title = element_text(color="black",size=12),
+        axis.text = element_text(color="black",size=11),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank())
+
+p9 <-ggplot(heart_disease_final, aes(x=trtbps)) + 
+  geom_histogram(color="black", fill="lightblue")+
+  geom_vline(aes(xintercept=mean(trtbps)),
+            color="blue", linetype="dashed", size=1)+
+   scale_y_continuous(breaks = seq(0, 130, by = 10), limits = c(0, 130))+
+  scale_x_continuous(n.breaks = 10)+
+  labs(x="Resting blood pressure (in mm Hg)",y="count", title = "Resting blood pressure")+
+  theme(axis.title = element_text(color="black",size=12),
+        axis.text = element_text(color="black",size=11),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank())
+
+p10 <-ggplot(heart_disease_final, aes(x=chol)) + 
+  geom_histogram(color="black", fill="pink")+
+  geom_vline(aes(xintercept=mean(chol)),
+            color="blue", linetype="dashed", size=1)+
+  scale_y_continuous(breaks = seq(0, 120, by = 10), limits = c(0, 120))+
+  scale_x_continuous(n.breaks = 12)+
+  labs(x="cholestoral in mg/dl",y="count", title = "cholestoral")+
+  theme(axis.title = element_text(color="black",size=12),
+        axis.text = element_text(color="black",size=11),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank())
+
+p11 <-ggplot(heart_disease_final, aes(x=thalach)) + 
+  geom_histogram(color="black", fill="lightgreen")+
+  geom_vline(aes(xintercept=mean(thalach)),
+            color="blue", linetype="dashed", size=1)+
+  scale_y_continuous(breaks = seq(0, 80, by = 10), limits = c(0, 80))+
+  scale_x_continuous(n.breaks = 12)+
+  labs(x="Maximum heart rate achieved",y="count", title = "Maximum heart rate")+
+  theme(axis.title = element_text(color="black",size=12),
+        axis.text = element_text(color="black",size=11),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank())
+
+
+figure2 <- ggarrange(p8, p9, p10, p11,
+          ncol = 2, nrow = 2)
+
+annotate_figure(figure2,
+                top = text_grob("Histograms for various continous features",
+                                color = "red", face = "bold", size = 15),
+                bottom = text_grob("Data source: \n heart disease data set", color = "blue",
+                                   hjust = 1, x = 0.98, face = "italic", size = 10),
+                #left = text_grob("Figure arranged using ggpubr", color = "green", rot = 90),
+                #right = "",
+                fig.lab = "Figure 2", fig.lab.face = "bold"
+                )
+
+
+```
+
+### Bivariate analysis
+
+
+#### Difference Frequency table
+
+
+```{r group differences}
+# make dataset with variables to summarize
+
+      
+tbl_summary(heart_disease_final,
+             by = output,
+                      type = list(
+                        all_dichotomous() ~ "categorical",
+                         all_continuous() ~ "continuous2")
+                      , statistic = all_continuous() ~ c(
+                                     "{mean} ({sd})", 
+                                     "{median} ({p25}, {p75})", 
+                                     "{min}, {max}")
+                      , digits = all_continuous() ~ 2
+                      , missing = "always" # don't list missing data separately
+                      ,missing_text = "Missing"
+                      ) %>% 
+  modify_header(label = "**Variables**") %>% # update the column header
+  bold_labels() %>%
+  italicize_levels()%>%
+  add_n()%>% # add column with total number of non-missing observations
+  add_p(pvalue_fun = ~style_pvalue(.x, digits = 3),
+        c(age, trtbps, chol, fbs, thalach, oldpeak) ~ "t.test",
+        test.args = c(age, trtbps, chol, fbs, thalach, oldpeak) ~ list(var.equal = TRUE)) %>%
+  bold_p(t= 0.05) %>% # bold p-values under a given threshold (default 0.05)
+  #add_overall() %>%
+  #add_difference() %>% #add column for difference between two group, confidence interval, and p-value
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Heart Disease**")  %>%
+  #modify_caption("**Table 1. Patient Characteristics**")%>%
+  modify_footnote(
+    all_stat_cols() ~ "Mean (SD); Median (IQR); Range; Frequency (%)"
+  )
+
+```
+
+#### Visualization
+
+```{r grouped bar graph}
+
+p12 <- ggplot(heart_disease_final, aes(x=output))+
+  geom_bar(aes(fill = sex), show.legend = TRUE, position="dodge")+
+  labs(x="",y="", title = "Sex of the patient", fill="")+
+  scale_y_continuous(breaks = seq(0, 350, by = 50), limits = c(0, 350))+
+  theme_pubclean()+
+  geom_text(aes(fill=sex, label = ..count..), stat = "count", vjust = 1.2, colour = "black",
+            position = position_dodge(.9))+
+  theme(axis.title = element_text(face="bold",color="black",size=13),
+        legend.position = "top",
+        axis.text = element_text(color="black",size=12),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank())
+
+p13 <- ggplot(heart_disease_final, aes(x=output))+
+  geom_bar(aes(fill = cp), show.legend = TRUE, position="dodge")+
+  labs(x="",y="", title = "Chest pain Type", fill="")+
+  scale_y_continuous(breaks = seq(0, 300, by = 50), limits = c(0, 300))+
+  theme_pubclean()+
+  geom_text(aes(fill=cp, label = ..count..), stat = "count", vjust = 0.5, colour = "black",
+            position = position_dodge(.9))+
+  theme(axis.title = element_text(face="bold",color="black",size=13),
+        legend.position = "top",
+        axis.text.y = element_text(color="black",size=12),
+        axis.text.x = element_text(color="black",size=12),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank())+
+  guides(fill = guide_legend(nrow = 2))
+
+
+p14 <- ggplot(heart_disease_final, aes(x=output))+
+  geom_bar(aes(fill = fbs), show.legend = TRUE, position="dodge")+
+  labs(x="",y="", title = "Fasting blood sugar", fill="")+
+  scale_y_continuous(breaks = seq(0, 350, by = 50), limits = c(0, 350))+
+ theme_pubclean()+
+  geom_text(aes(fill=fbs, label = ..count..), stat = "count", vjust = 1.2, colour = "black",
+            position = position_dodge(.9))+
+  theme(axis.title= element_text(face="bold",color="black",size=13),
+        legend.position = "top",
+        axis.text = element_text(color="black",size=12),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank())
+
+p15 <- ggplot(heart_disease_final, aes(x=output))+
+  geom_bar(aes(fill = restecg), show.legend = TRUE, position="dodge")+
+  labs(x="",y="", title = "Resting electrocardiographic results", fill="")+
+  scale_y_continuous(breaks = seq(0, 300, by = 50), limits = c(0, 300))+
+  theme_pubclean()+
+  geom_text(aes(fill=restecg, label = ..count..), stat = "count", vjust = 1.2, colour = "black",
+            position = position_dodge(.9))+
+  theme(axis.title = element_text(face="bold",color="black",size=13),
+        legend.position = "top",
+        axis.text.y = element_text(color="black",size=12),
+        axis.text.x = element_text(color="black",size=12),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank())
+
+p16 <- ggplot(heart_disease_final, aes(x=output))+
+  geom_bar(aes(fill = exng), show.legend = TRUE, position="dodge")+
+  labs(x="",y="", title = "Exercise induced angina", fill="")+
+  scale_y_continuous(breaks = seq(0, 350, by = 50), limits = c(0, 350))+
+  theme_pubclean()+
+  geom_text(aes(fill=exng, label = ..count..), stat = "count", vjust = 1.2, colour = "black",
+            position = position_dodge(.9))+
+  theme(axis.title = element_text(face="bold",color="black",size=13),
+        legend.position = "top",
+        axis.text = element_text(color="black",size=12),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank())
+
+
+p17 <- ggplot(heart_disease_final, aes(x=output))+
+  geom_bar(aes(fill = slp), show.legend = TRUE, position="dodge")+
+  labs(x="",y="", title = "Slope of peak exercise", fill="")+
+  scale_y_continuous(breaks = seq(0, 350, by = 50), limits = c(0, 350))+
+  theme_pubclean()+
+  geom_text(aes(fill=slp, label = ..count..), stat = "count", vjust = 0.5, colour = "black",
+            position = position_dodge(.9))+
+  theme(axis.title = element_text(face="bold",color="black",size=13),
+        legend.position = "top",
+        axis.text = element_text(color="black",size=12),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank())
+
+figure3 <- ggarrange( p12, p13, p14, p15, p16, p17, 
+          ncol = 3, nrow = 2)
+
+annotate_figure(figure3,
+                top = text_grob("Distribution by Heart disease of various categorical features",
+                                color = "red", face = "bold", size = 15),
+                bottom = text_grob("Data source: \n heart disease data set", color = "blue",
+                                   hjust = 1, x = 0.98, face = "italic", size = 10),
+                #left = text_grob("Figure arranged using ggpubr", color = "green", rot = 90),
+                #right = "",
+                fig.lab = "Figure 3", fig.lab.face = "bold"
+                )
+
+```
+
+```{r density and box plots}
+
+p18 <- ggplot(heart_disease_final, aes(x=age, fill=output)) + 
+  geom_density(alpha=0.4)+
+  scale_y_continuous(n.breaks = 10)+
+  scale_x_continuous(breaks = seq(25, 80, by = 5), limits = c(25, 80))+
+  labs(x="age",y="density", title = "Age of the patient")+
+  theme(axis.title = element_text(color="black",size=12),
+        legend.position = "top",
+        axis.text = element_text(color="black",size=11),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank())+
+  guides(fill = guide_legend(title = ""))
+
+
+p19 <-ggplot(heart_disease_final, aes(x=trtbps, fill=output)) + 
+  geom_density(alpha=0.4)+
+  scale_y_continuous(n.breaks = 10)+
+  scale_x_continuous(breaks = seq(90, 200, by = 10), limits = c(90, 200))+
+  labs(x="Resting blood pressure (in mm Hg)",y="density", title = "Resting blood pressure")+
+  theme(axis.title = element_text(color="black",size=12),
+        legend.position = "top",
+        axis.text.y = element_text(color="black",size=11),
+        axis.text.x = element_text(color="black",size=9, angle = 90),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank())+
+  guides(fill = guide_legend(title = ""))
+
+
+p20 <-ggplot(heart_disease_final, aes(x=chol, fill=output)) + 
+  geom_density(alpha=0.4)+
+  scale_y_continuous(n.breaks = 10)+
+  scale_x_continuous(breaks = seq(50, 650, by = 50), limits = c(50, 650))+
+  labs(x="cholestoral in mg/dl",y="density", title = "cholestoral")+
+  theme(axis.title = element_text(color="black",size=12),
+        legend.position = "top",
+        axis.text.y = element_text(color="black",size=11),
+        axis.text.x = element_text(color="black",size=9, angle = 90),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank())+
+  guides(fill = guide_legend(title = ""))
+
+
+p21 <-ggplot(heart_disease_final, aes(x=thalach, fill=output)) + 
+  geom_density(alpha=0.4)+
+  scale_y_continuous(n.breaks = 10)+
+  scale_x_continuous(breaks = seq(60, 210, by = 10), limits = c(60, 210))+
+  labs(x="Maximum heart rate achieved",y="density", title = "Maximum heart rate")+
+  theme(axis.title = element_text(color="black",size=12),
+        legend.position = "top",
+        axis.text.y = element_text(color="black",size=11),
+        axis.text.x = element_text(color="black",size=9, angle=90),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank())+
+  guides(fill = guide_legend(title = ""))
+
+
+p22 <- ggplot(heart_disease_final, aes(output, age))+
+  geom_boxplot(aes(colour = output), outlier.colour = "black", 
+               outlier.shape = 8, show.legend = FALSE)+
+  labs(x="",y="age", title = "Age of the patient")+
+  scale_y_continuous(breaks = seq(25, 80, by = 5), limits = c(25, 80))+
+  theme(axis.title = element_text(face="bold",color="black",size=13),
+        axis.text = element_text(color="black",size=12),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.y = element_blank())
+
+
+p23 <- ggplot(heart_disease_final, aes(output, trtbps))+
+  geom_boxplot(aes(colour = output), outlier.colour = "black", 
+               outlier.shape = 1, show.legend = FALSE)+
+  labs(x="",y="Resting blood pressure (mm Hg)", title = "Resting blood pressure")+
+  scale_y_continuous(breaks = seq(90, 200, by = 10), limits = c(90, 200))+
+  theme(axis.title = element_text(face="bold",color="black",size=13),
+        axis.text = element_text(color="black",size=12),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.y = element_blank())
+
+
+p24 <-ggplot(heart_disease_final, aes(output, chol))+
+  geom_boxplot(aes(colour = output), outlier.colour = "black", 
+               outlier.shape = 1, show.legend = FALSE)+
+  labs(x="",y="cholestoral in mg/dl", title = "cholestoral")+
+  scale_y_continuous(breaks = seq(50, 650, by = 50), limits = c(50, 650))+
+  theme(axis.title = element_text(face="bold",color="black",size=13),
+        axis.text = element_text(color="black",size=12),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.y = element_blank())
+
+
+p25 <-ggplot(heart_disease_final, aes(output, thalach))+
+  geom_boxplot(aes(colour = output), outlier.colour = "black", 
+               outlier.shape = 1, show.legend = FALSE)+
+  labs(x="",y="Maximum heart rate achieved", title = "Maximum heart rate")+
+  scale_y_continuous(breaks = seq(60, 200, by = 10), limits = c(60, 200))+
+  theme(axis.title = element_text(face="bold",color="black",size=13),
+        axis.text = element_text(color="black",size=12),
+        plot.title = element_text(hjust = 0.5, face="bold",color="black",size=13),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.y = element_blank())
+
+figure4 <- ggarrange( p18, p19, p20, p21, p22, p23, p24, p25, 
+          ncol = 4, nrow = 2)
+
+annotate_figure(figure4,
+                top = text_grob("Distribution by Heart disease of various continous features",
+                                color = "red", face = "bold", size = 15),
+                bottom = text_grob("Data source: \n heart disease data set", color = "blue",
+                                   hjust = 1, x = 0.98, face = "italic", size = 10),
+                #left = text_grob("Figure arranged using ggpubr", color = "green", rot = 90),
+                #right = "",
+                fig.lab = "Figure 4", fig.lab.face = "bold"
+                )
+
+```
+
+
+#### Correlation
+
+A negative correlation implies that the two variables under consideration vary in opposite directions, that is, if a variable increases the other decreases and vice versa. On the other hand, a positive correlation implies that the two variables under consideration vary in the same direction, i.e., if a variable increases the other one increases and if one decreases the other one decreases as well
+
+```{r correlation}
+
+# correlation for all variables
+kable(
+round(cor(heart_disease_final%>%mutate(across(c(2,3,6, 7, 9, 11, 12), as.numeric))),
+  digits = 2 # rounded to 2 decimals
+)
+)
+
+
+# improved correlation matrix
+library(corrplot)
+
+corrplot(cor(heart_disease_final%>%mutate(across(c(2,3,6, 7, 9, 11, 12), as.numeric))),
+  method = "number",
+  type = "upper" # show only upper side
+)
+
+```
+
+Only correlations with p-values smaller than the significance level (p<0.05)should be interpreted.
+
+```{r significance for correlation}
+
+# correlation tests for whole dataset
+library(Hmisc)
+res <- rcorr(as.matrix(heart_disease_final%>%mutate(across(c(2,3,6, 7, 9, 11, 12), as.numeric)))) # rcorr() accepts matrices only
+
+# display p-values (rounded to 3 decimals)
+kable(
+  round(res$P, 3)
+)
+
+```
+
+
+After exploring the data, a statistical model will be used to give the final conclusion of the relationship. The dependent variable, “output” is categorical with two variables while the independent variables are more than one and are a mixture of categorical and continuous data and hence a binary logistic model will be applied. This model will be trained and tested and used to make some predictions.
+
+## Linear Regression
+
+### Splitting the data for training and testing
+
+spliting the data in a 80:20 ratio (training:testing). We use set.seed() to make sure that the results are repeatable. We also use the outcome variable, output to stratify. This is to ensure that the 
+distribution of the outcome is comparable in both data sets.
+
+```{r}
+
+library(rsample)
+
+set.seed(123)
+split <- initial_split(heart_disease_final, prop = 0.8, strata = output)
+
+
+train <- training(split) 
+test <- testing(split)
+
+#initial_time_split() takes the 1st prop samples for training,instead of random selection.
+
+#sample=sample.split(mydata, SplitRatio = 0.80)
+#train<-subset(mydata, sample==TRUE)
+#test<-subset(mydata, sample==FALSE)
+
+```
+
+
+### model
+
+```{r logistic regression model}
+glm_logistic_reg <-glm(formula=output~.,data=train, family="binomial")
+
+
+#summary(glm_logistic_reg)
+
+
+```
+
+### model statistics
+
+```{r model statistics}
+
+broom::glance(glm_logistic_reg)
+
+#performance::check_collinearity(glm_logistic_reg)
+
+performance::check_model(glm_logistic_reg)
+
+#performance::performance_accuracy(glm_logistic_reg)
+
+```
+
+### model results
+
+```{r model results}
+tbl_regression(glm_logistic_reg, exponentiate = TRUE, 
+    pvalue_fun = ~style_pvalue(.x, digits = 3),
+  )%>%
+  #add_global_p()%>% # add global p-value for categorical variables
+  bold_p(t= 0.05) %>% # bold p-values under a given threshold (default 0.05)
+  bold_labels() %>%
+  italicize_levels()%>% 
+  modify_header(label = "**Logistic regression**")%>% # update the column header
+  add_significance_stars(
+    pattern = "{estimate} ({conf.low}-{conf.high}){stars}",
+    hide_ci = TRUE, hide_se = TRUE , hide_p = FALSE) %>%
+  modify_header(estimate ~ "**AOR (95% CI)**") %>%
+  modify_footnote(estimate ~ "AOR = Adjusted Odds Ratio, CI = Confidence Interval", abbreviation = TRUE)
+
+```
+
+Statistically significant variables are Male(Sex), Asymptomatic (chest pain type), Yes (Angina), ST depression, flat (slope of peak exercise) and downsloping (slope of peak exercise).
+
+Having Asymptomatic chest pain type, Angina, flat slope of peak exercise, downsloping slope of peak exercise, high ST depression and being Male are significantly associated with higher odds of having a heart attack. e.g People with Angina are 2.43 times more likely to get heart attack than those with no Angina.
+Males are 5.08 times more likely to get heart attack than females.
+
+atypical angina chest pain type, non-anginal chest pain type, having ST_T abnormality sesting electrocardiographic results are associated with lower odds of heart attack. However they do not have a significant effect on heart attack. 
+
+### Evaluating with testing data
+
+```{r evaluating test data}
+test$prediction <-predict(glm_logistic_reg, test, type= "response")
+
+##replacing probabilities with dummies 
+
+test$predicted <- as.factor(ifelse(test$prediction<0.5, "No heart attack", "Has Heart attack"))
+
+test <- test%>%
+  mutate(predicted= factor(predicted, levels = c("No heart attack", "Has Heart attack")))
+
+##creating a confusion matrix
+
+table(Predicted=test$predicted, Actual=test$output)
+
+##getting percentage of misclassification
+
+1-sum(diag(table(Predicted=test$predicted, Actual=test$output)))/sum(table(Predicted=test$predicted, Actual=test$output))
+
+##getting percentage of accuracy
+sum(diag(table(Predicted=test$predicted, Actual=test$output)))/sum(table(Predicted=test$predicted, Actual=test$output))
+
+##Testing for goodness of fit. 
+
+with(glm_logistic_reg, pchisq(null.deviance - deviance, df.null - df.residual, lower.tail = FALSE))
+
+
+```
+
+True positives (TP) we have 68 correctly classified instances of heart attack
+
+True negatives(TN) we have 63 cases classified as not having heart attack
+
+False negatives (FN) we have 3 cases our model said the patient didn’t have heart attack and they actually did
+
+False positives (FP) we have 14 cases our model said a patient did have heart attack, but they actually didn’t
+
+*Sensitivity (Recall)* The true positive rate is 0.9577 meaning from all the patients that had heart attack ; how many did we predict correctly - this equation is *Sensitivity =TP / (TP + FN)*
+
+*Specificity* The true negative rate is 0.8182 meaning from all the patients that didn't have heart attack - how many did we predict correctly - this equation is *Specificity =TN / (TN + FP)*
+
+*Positive Predictive Value (Precision)* is 0.8293 meaning from all the classes we predicted as positive, how many were actually positive. equation is *Positive Predictive Value=TP/(TP + FP)*
+
+*Negative Predictive Value (Precision)* is 0.9545 meaning from all the classes we predicted as negative, how many were actually negative. equation is *Negative Predictive Value=TN/(TN + FN)*
+
+
+Accuracy of the model is 88.5% with p value of 2.407305e-82 (less than the default level of significance (0.05)).
+
+Our model did relatively well and can be used in making predictions
+
+
+
