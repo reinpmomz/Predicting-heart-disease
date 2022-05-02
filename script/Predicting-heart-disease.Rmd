@@ -695,7 +695,7 @@ kable(
 
 After exploring the data, a statistical model will be used to give the final conclusion of the relationship. The dependent variable, “output” is categorical with two variables while the independent variables are more than one and are a mixture of categorical and continuous data and hence a binary logistic model will be applied. This model will be trained and tested and used to make some predictions.
 
-# Linear Regression
+# Logistic Regression
 
 ## Splitting the data for training and testing
 

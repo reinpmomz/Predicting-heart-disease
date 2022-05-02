@@ -272,12 +272,12 @@ tbl_summary(heart_disease_final,
 ```
 
 ```{=html}
-<div id="eoqbmzjjgi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="mbdxfwnhhc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#eoqbmzjjgi .gt_table {
+#mbdxfwnhhc .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -302,7 +302,7 @@ tbl_summary(heart_disease_final,
   border-left-color: #D3D3D3;
 }
 
-#eoqbmzjjgi .gt_heading {
+#mbdxfwnhhc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -314,7 +314,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#eoqbmzjjgi .gt_title {
+#mbdxfwnhhc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -326,7 +326,7 @@ tbl_summary(heart_disease_final,
   border-bottom-width: 0;
 }
 
-#eoqbmzjjgi .gt_subtitle {
+#mbdxfwnhhc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -338,13 +338,13 @@ tbl_summary(heart_disease_final,
   border-top-width: 0;
 }
 
-#eoqbmzjjgi .gt_bottom_border {
+#mbdxfwnhhc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#eoqbmzjjgi .gt_col_headings {
+#mbdxfwnhhc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -359,7 +359,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#eoqbmzjjgi .gt_col_heading {
+#mbdxfwnhhc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -379,7 +379,7 @@ tbl_summary(heart_disease_final,
   overflow-x: hidden;
 }
 
-#eoqbmzjjgi .gt_column_spanner_outer {
+#mbdxfwnhhc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -391,15 +391,15 @@ tbl_summary(heart_disease_final,
   padding-right: 4px;
 }
 
-#eoqbmzjjgi .gt_column_spanner_outer:first-child {
+#mbdxfwnhhc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#eoqbmzjjgi .gt_column_spanner_outer:last-child {
+#mbdxfwnhhc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#eoqbmzjjgi .gt_column_spanner {
+#mbdxfwnhhc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -411,7 +411,7 @@ tbl_summary(heart_disease_final,
   width: 100%;
 }
 
-#eoqbmzjjgi .gt_group_heading {
+#mbdxfwnhhc .gt_group_heading {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -436,7 +436,7 @@ tbl_summary(heart_disease_final,
   vertical-align: middle;
 }
 
-#eoqbmzjjgi .gt_empty_group_heading {
+#mbdxfwnhhc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -451,15 +451,15 @@ tbl_summary(heart_disease_final,
   vertical-align: middle;
 }
 
-#eoqbmzjjgi .gt_from_md > :first-child {
+#mbdxfwnhhc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#eoqbmzjjgi .gt_from_md > :last-child {
+#mbdxfwnhhc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#eoqbmzjjgi .gt_row {
+#mbdxfwnhhc .gt_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -478,7 +478,7 @@ tbl_summary(heart_disease_final,
   overflow-x: hidden;
 }
 
-#eoqbmzjjgi .gt_stub {
+#mbdxfwnhhc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -491,7 +491,7 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#eoqbmzjjgi .gt_stub_row_group {
+#mbdxfwnhhc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -505,11 +505,11 @@ tbl_summary(heart_disease_final,
   vertical-align: top;
 }
 
-#eoqbmzjjgi .gt_row_group_first td {
+#mbdxfwnhhc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#eoqbmzjjgi .gt_summary_row {
+#mbdxfwnhhc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -519,16 +519,16 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#eoqbmzjjgi .gt_first_summary_row {
+#mbdxfwnhhc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#eoqbmzjjgi .gt_first_summary_row.thick {
+#mbdxfwnhhc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#eoqbmzjjgi .gt_last_summary_row {
+#mbdxfwnhhc .gt_last_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -538,7 +538,7 @@ tbl_summary(heart_disease_final,
   border-bottom-color: #D3D3D3;
 }
 
-#eoqbmzjjgi .gt_grand_summary_row {
+#mbdxfwnhhc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -548,7 +548,7 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#eoqbmzjjgi .gt_first_grand_summary_row {
+#mbdxfwnhhc .gt_first_grand_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -558,11 +558,11 @@ tbl_summary(heart_disease_final,
   border-top-color: #D3D3D3;
 }
 
-#eoqbmzjjgi .gt_striped {
+#mbdxfwnhhc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#eoqbmzjjgi .gt_table_body {
+#mbdxfwnhhc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -571,7 +571,7 @@ tbl_summary(heart_disease_final,
   border-bottom-color: #D3D3D3;
 }
 
-#eoqbmzjjgi .gt_footnotes {
+#mbdxfwnhhc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -585,7 +585,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#eoqbmzjjgi .gt_footnote {
+#mbdxfwnhhc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 1px;
@@ -594,7 +594,7 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#eoqbmzjjgi .gt_sourcenotes {
+#mbdxfwnhhc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -608,7 +608,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#eoqbmzjjgi .gt_sourcenote {
+#mbdxfwnhhc .gt_sourcenote {
   font-size: 90%;
   padding-top: 1px;
   padding-bottom: 1px;
@@ -616,60 +616,60 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#eoqbmzjjgi .gt_left {
+#mbdxfwnhhc .gt_left {
   text-align: left;
 }
 
-#eoqbmzjjgi .gt_center {
+#mbdxfwnhhc .gt_center {
   text-align: center;
 }
 
-#eoqbmzjjgi .gt_right {
+#mbdxfwnhhc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#eoqbmzjjgi .gt_font_normal {
+#mbdxfwnhhc .gt_font_normal {
   font-weight: normal;
 }
 
-#eoqbmzjjgi .gt_font_bold {
+#mbdxfwnhhc .gt_font_bold {
   font-weight: bold;
 }
 
-#eoqbmzjjgi .gt_font_italic {
+#mbdxfwnhhc .gt_font_italic {
   font-style: italic;
 }
 
-#eoqbmzjjgi .gt_super {
+#mbdxfwnhhc .gt_super {
   font-size: 65%;
 }
 
-#eoqbmzjjgi .gt_footnote_marks {
+#mbdxfwnhhc .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#eoqbmzjjgi .gt_asterisk {
+#mbdxfwnhhc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#eoqbmzjjgi .gt_slash_mark {
+#mbdxfwnhhc .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#eoqbmzjjgi .gt_fraction_numerator {
+#mbdxfwnhhc .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#eoqbmzjjgi .gt_fraction_denominator {
+#mbdxfwnhhc .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -1091,12 +1091,12 @@ tbl_summary(heart_disease_final,
 ```
 
 ```{=html}
-<div id="qqazdlgfnk" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="zistbwkqsy" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qqazdlgfnk .gt_table {
+#zistbwkqsy .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1121,7 +1121,7 @@ tbl_summary(heart_disease_final,
   border-left-color: #D3D3D3;
 }
 
-#qqazdlgfnk .gt_heading {
+#zistbwkqsy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1133,7 +1133,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#qqazdlgfnk .gt_title {
+#zistbwkqsy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1145,7 +1145,7 @@ tbl_summary(heart_disease_final,
   border-bottom-width: 0;
 }
 
-#qqazdlgfnk .gt_subtitle {
+#zistbwkqsy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1157,13 +1157,13 @@ tbl_summary(heart_disease_final,
   border-top-width: 0;
 }
 
-#qqazdlgfnk .gt_bottom_border {
+#zistbwkqsy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qqazdlgfnk .gt_col_headings {
+#zistbwkqsy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1178,7 +1178,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#qqazdlgfnk .gt_col_heading {
+#zistbwkqsy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1198,7 +1198,7 @@ tbl_summary(heart_disease_final,
   overflow-x: hidden;
 }
 
-#qqazdlgfnk .gt_column_spanner_outer {
+#zistbwkqsy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1210,15 +1210,15 @@ tbl_summary(heart_disease_final,
   padding-right: 4px;
 }
 
-#qqazdlgfnk .gt_column_spanner_outer:first-child {
+#zistbwkqsy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qqazdlgfnk .gt_column_spanner_outer:last-child {
+#zistbwkqsy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qqazdlgfnk .gt_column_spanner {
+#zistbwkqsy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1230,7 +1230,7 @@ tbl_summary(heart_disease_final,
   width: 100%;
 }
 
-#qqazdlgfnk .gt_group_heading {
+#zistbwkqsy .gt_group_heading {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -1255,7 +1255,7 @@ tbl_summary(heart_disease_final,
   vertical-align: middle;
 }
 
-#qqazdlgfnk .gt_empty_group_heading {
+#zistbwkqsy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1270,15 +1270,15 @@ tbl_summary(heart_disease_final,
   vertical-align: middle;
 }
 
-#qqazdlgfnk .gt_from_md > :first-child {
+#zistbwkqsy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qqazdlgfnk .gt_from_md > :last-child {
+#zistbwkqsy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qqazdlgfnk .gt_row {
+#zistbwkqsy .gt_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -1297,7 +1297,7 @@ tbl_summary(heart_disease_final,
   overflow-x: hidden;
 }
 
-#qqazdlgfnk .gt_stub {
+#zistbwkqsy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1310,7 +1310,7 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#qqazdlgfnk .gt_stub_row_group {
+#zistbwkqsy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1324,11 +1324,11 @@ tbl_summary(heart_disease_final,
   vertical-align: top;
 }
 
-#qqazdlgfnk .gt_row_group_first td {
+#zistbwkqsy .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qqazdlgfnk .gt_summary_row {
+#zistbwkqsy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1338,16 +1338,16 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#qqazdlgfnk .gt_first_summary_row {
+#zistbwkqsy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qqazdlgfnk .gt_first_summary_row.thick {
+#zistbwkqsy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qqazdlgfnk .gt_last_summary_row {
+#zistbwkqsy .gt_last_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -1357,7 +1357,7 @@ tbl_summary(heart_disease_final,
   border-bottom-color: #D3D3D3;
 }
 
-#qqazdlgfnk .gt_grand_summary_row {
+#zistbwkqsy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1367,7 +1367,7 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#qqazdlgfnk .gt_first_grand_summary_row {
+#zistbwkqsy .gt_first_grand_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -1377,11 +1377,11 @@ tbl_summary(heart_disease_final,
   border-top-color: #D3D3D3;
 }
 
-#qqazdlgfnk .gt_striped {
+#zistbwkqsy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qqazdlgfnk .gt_table_body {
+#zistbwkqsy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1390,7 +1390,7 @@ tbl_summary(heart_disease_final,
   border-bottom-color: #D3D3D3;
 }
 
-#qqazdlgfnk .gt_footnotes {
+#zistbwkqsy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1404,7 +1404,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#qqazdlgfnk .gt_footnote {
+#zistbwkqsy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 1px;
@@ -1413,7 +1413,7 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#qqazdlgfnk .gt_sourcenotes {
+#zistbwkqsy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1427,7 +1427,7 @@ tbl_summary(heart_disease_final,
   border-right-color: #D3D3D3;
 }
 
-#qqazdlgfnk .gt_sourcenote {
+#zistbwkqsy .gt_sourcenote {
   font-size: 90%;
   padding-top: 1px;
   padding-bottom: 1px;
@@ -1435,60 +1435,60 @@ tbl_summary(heart_disease_final,
   padding-right: 5px;
 }
 
-#qqazdlgfnk .gt_left {
+#zistbwkqsy .gt_left {
   text-align: left;
 }
 
-#qqazdlgfnk .gt_center {
+#zistbwkqsy .gt_center {
   text-align: center;
 }
 
-#qqazdlgfnk .gt_right {
+#zistbwkqsy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qqazdlgfnk .gt_font_normal {
+#zistbwkqsy .gt_font_normal {
   font-weight: normal;
 }
 
-#qqazdlgfnk .gt_font_bold {
+#zistbwkqsy .gt_font_bold {
   font-weight: bold;
 }
 
-#qqazdlgfnk .gt_font_italic {
+#zistbwkqsy .gt_font_italic {
   font-style: italic;
 }
 
-#qqazdlgfnk .gt_super {
+#zistbwkqsy .gt_super {
   font-size: 65%;
 }
 
-#qqazdlgfnk .gt_footnote_marks {
+#zistbwkqsy .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#qqazdlgfnk .gt_asterisk {
+#zistbwkqsy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qqazdlgfnk .gt_slash_mark {
+#zistbwkqsy .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#qqazdlgfnk .gt_fraction_numerator {
+#zistbwkqsy .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#qqazdlgfnk .gt_fraction_denominator {
+#zistbwkqsy .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -2101,7 +2101,7 @@ kable(
 
 After exploring the data, a statistical model will be used to give the final conclusion of the relationship. The dependent variable, “output” is categorical with two variables while the independent variables are more than one and are a mixture of categorical and continuous data and hence a binary logistic model will be applied. This model will be trained and tested and used to make some predictions.
 
-# Linear Regression
+# Logistic Regression
 
 ## Splitting the data for training and testing
 
